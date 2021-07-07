@@ -29,6 +29,6 @@ func init() {
 // Execute implements the Commander interace from the jessevdk/go-flags package
 // We don't (currnetly) care about positional arguments, so we use an `_ []string` to ignore them.
 func (cmd versionCmd) Execute(_ []string) error {
-	fmt.Printf("CLI version: v%v\n", Version())
+	fmt.Printf("CLI version: %v\n", Version())
 	return nil
 }

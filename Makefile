@@ -2,7 +2,7 @@ GOCMD=$(shell which go)
 PKGBASE=github.com/erumble
 PROJECTNAME=$(shell basename "$(PWD)")
 BINARY_NAME=echo
-BUILD_VERSION?=0.0.0
+BUILD_VERSION?=v0.0.0
 EXPORT_RESULT?=false # for CI please set EXPORT_RESULT to true
 
 GREEN  := $(shell tput -Txterm setaf 2)
