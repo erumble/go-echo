@@ -10,4 +10,4 @@ FROM alpine:3.14
 WORKDIR /opt/go-echo
 RUN apk --no-cache add ca-certificates
 COPY --from=builder /go/go-echo/bin/echo echo
-ENTRYPOINT ["./echo"]
+ENTRYPOINT ["./echo", "serve"]
