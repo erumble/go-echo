@@ -2,7 +2,7 @@ GOCMD=$(shell which go)
 PKGBASE=github.com/erumble
 PROJECTNAME=$(shell basename "$(PWD)")
 BINARY_NAME=echo
-VERSION?=0.0.0
+BUILD_VERSION?=0.0.0
 EXPORT_RESULT?=false # for CI please set EXPORT_RESULT to true
 
 GREEN  := $(shell tput -Txterm setaf 2)
@@ -18,7 +18,7 @@ all: help
 ## Build:
 build: ## Build your project and put the output binary in bin/
 	mkdir -p bin
-	$(GOCMD) build -ldflags "-X $(PKGBASE)/$(PROJECTNAME)/pkg/cli.version=$(VERSION)" -o bin/$(BINARY_NAME) $(PKGBASE)/$(PROJECTNAME)/cmd/$(BINARY_NAME)
+	CGO_ENABLED=0 $(GOCMD) build -ldflags "-X $(PKGBASE)/$(PROJECTNAME)/pkg/cli.version=$(BUILD_VERSION)" -o bin/$(BINARY_NAME) $(PKGBASE)/$(PROJECTNAME)/cmd/$(BINARY_NAME)
 
 clean: ## Remove build related file
 	rm -rf ./bin
