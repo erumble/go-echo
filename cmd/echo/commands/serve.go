@@ -14,8 +14,8 @@ import (
 )
 
 type serveCmd struct {
-	Port       int    `short:"p" long:"port" env:"PORT" default:"8080" required:"false" description:"The port on which the service listens"`
-	StaticResp string `short:"r" long:"static-response" env:"STATIC_RESPONSE" required:"true" description:"Return value for the static response handler"`
+	Port int `short:"p" long:"port" env:"PORT" default:"8080" required:"false" description:"The port on which the service listens"`
+	// StaticResp string `short:"r" long:"static-response" env:"STATIC_RESPONSE" required:"true" description:"Return value for the static response handler"`
 }
 
 func init() {
@@ -51,7 +51,7 @@ func (cmd serveCmd) Execute(_ []string) error {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	r := router.New(cmd.StaticResp, log)
+	r := router.New(log)
 	r.WithMiddleware(httplogger.HTTPLogger)
 	s := server.New(r, cmd.Port, 5*time.Second, log)
 

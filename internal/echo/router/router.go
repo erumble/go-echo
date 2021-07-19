@@ -19,9 +19,10 @@ type router struct {
 }
 
 // New registers the routes and middleware for the server and returns an http handler
-func New(staticResponse string, log logger.LeveledLogger) Router {
+func New(log logger.LeveledLogger) Router {
 	r := mux.NewRouter()
-	r.HandleFunc("/static", handlers.StaticResponseHandler(staticResponse, log))
+	r.HandleFunc("/status", handlers.HealthHandler(log))
+	// r.HandleFunc("/static", handlers.StaticResponseHandler(staticResponse, log))
 	r.HandleFunc("/version", handlers.VersionHandler(log))
 	r.PathPrefix("/").Handler(handlers.EchoHandler(log))
 	return &router{r}
