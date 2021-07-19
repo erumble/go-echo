@@ -9,13 +9,13 @@ import (
 	"github.com/erumble/go-echo/internal/echo/router"
 	"github.com/erumble/go-echo/pkg/cli"
 	"github.com/erumble/go-echo/pkg/logger"
-	"github.com/erumble/go-echo/pkg/middleware/httplogger"
+	"github.com/erumble/go-echo/pkg/middleware"
 	"github.com/erumble/go-echo/pkg/server"
 )
 
 type serveCmd struct {
-	Port int `short:"p" long:"port" env:"PORT" default:"8080" required:"false" description:"The port on which the service listens"`
-	// StaticResp string `short:"r" long:"static-response" env:"STATIC_RESPONSE" required:"true" description:"Return value for the static response handler"`
+	Port          int `short:"p" long:"port" env:"PORT" default:"8080" required:"false" description:"The port on which the service listens"`
+	SlowRespDelay int `short:"d" long:"slow-response-delay" env:"SLOW_RESPONSE_DELAY" default:"5" required:"false" description:"Time in seconds that the slow response endpoint will wait before sending response"`
 }
 
 func init() {
@@ -51,8 +51,8 @@ func (cmd serveCmd) Execute(_ []string) error {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	r := router.New(log)
-	r.WithMiddleware(httplogger.HTTPLogger)
+	r := router.New(cmd.SlowRespDelay, log)
+	r.WithMiddleware(middleware.HTTPLogger)
 	s := server.New(r, cmd.Port, 5*time.Second, log)
 
 	return s.Serve(ctx)

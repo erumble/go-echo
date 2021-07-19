@@ -1,4 +1,4 @@
-package httplogger
+package middleware
 
 import (
 	"log"
